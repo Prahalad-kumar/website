@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Social Sharing -->
+    <meta name="description" content="Portfolio of Prahalad Kumar, a Backend Developer specializing in Python, Django, FastAPI, and Database Optimization.">
+    <meta name="keywords" content="Prahalad Kumar, Backend Developer, Python, Django, FastAPI, Portfolio, Web Developer, Bengaluru">
+    <meta name="author" content="Prahalad Kumar">
+    
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://prahalad-kumar.portfolio">
+    <meta property="og:title" content="Prahalad Kumar | Backend Developer">
+    <meta property="og:description" content="Building robust backend architecture with Python & Django. Obsessed with API performance and clean code.">
+    <meta property="og:image" content="IMG-20251220-WA0022.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+    
+    <title>Prahalad Kumar | Backend_Dev_Port</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Devicon for Tech Logos -->
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+    <!-- Google Fonts: JetBrains Mono for that coding feel -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                        },
+                        neon: '#00ff9d',
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'scan-vertical': 'scanVertical 3s linear infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        scanVertical: {
+                            '0%': { top: '-10%' },
+                            '100%': { top: '110%' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- CORE STYLES --- */
+        body {
+            cursor: none; /* Hide default cursor */
+            background: #020617; 
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #cbd5e1;
+        }
+
+        .glass {
+            background-color: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+        }
+
+        /* --- SCROLL PROGRESS BAR --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #00ff9d;
+            width: 0%;
+            z-index: 10001;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px #00ff9d;
+        }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #020617;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            transition: opacity 0.5s ease-out;
+        }
+        .loader-text {
+            color: #00ff9d;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            animation: blink 1s infinite;
+        }
+        .loader-bar {
+            width: 200px;
+            height: 2px;
+            background: #1e293b;
+            position: relative;
+            overflow: hidden;
+        }
+        .loader-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #00ff9d;
+            animation: load 2s ease-in-out forwards;
+        }
+        @keyframes blink { 50% { opacity: 0.5; } }
+        @keyframes load { 0% { width: 0%; } 100% { width: 100%; } }
+
+        /* --- BACKGROUND ELEMENTS --- */
+        #mouse-glow {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 255, 157, 0.06) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -8; 
+            transition: opacity 0.3s;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor-dot,
+        #cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff9d;
+            box-shadow: 0 0 10px #00ff9d;
+        }
+
+        #cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 255, 157, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover #cursor-outline {
+            opacity: 1;
+        }
+        
+        body.hovering #cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 255, 157, 0.1);
+            border-color: #00ff9d;
+        }
+
+        /* --- GLITCH EFFECT --- */
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch {
+            position: relative;
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020617; 
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 #00ff9d;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(38px, 9999px, 34px, 0); }
+            50% { clip: rect(15px, 9999px, 19px, 0); }
+            100% { clip: rect(31px, 9999px, 79px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(9px, 9999px, 96px, 0); }
+            50% { clip: rect(83px, 9999px, 80px, 0); }
+            100% { clip: rect(54px, 9999px, 3px, 0); }
+        }
+
+        /* --- HUD CARD STYLES --- */
+        .hud-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .hud-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .hud-card:hover::before {
+            left: 100%;
+        }
+
+        .hud-card:hover {
+            border-color: #00ff9d;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
+            transform: translateY(-5px);
+        }
+
+        /* Corner accents for cards */
+        .corner-accent {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .hud-card:hover .corner-accent {
+            border-color: #00ff9d;
+        }
+        
+        .corner-tl { top: 0; left: 0; border-top-color: rgba(148, 163, 184, 0.3); border-left-color: rgba(148, 163, 184, 0.3); }
+        .corner-br { bottom: 0; right: 0; border-bottom-color: rgba(148, 163, 184, 0.3); border-right-color: rgba(148, 163, 184, 0.3); }
+
+        /* --- PROJECT TERMINAL STYLE --- */
+        .terminal-window {
+            background: #0f172a;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .terminal-header {
+            background: rgba(30, 41, 59, 0.8);
+            border-bottom: 1px solid rgba(52, 211, 153, 0.2);
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* --- UTILS --- */
+        .text-neon {
+            color: #00ff9d;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0, 255, 157, 0.1);
+            color: #00ff9d;
+            border: 1px solid #00ff9d;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none; 
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #back-to-top:hover {
+            background: #00ff9d;
+            color: #000;
+            transform: translateY(-5px);
+        }
+
+        /* Theme Toggle Button */
+        #theme-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0, 255, 157, 0.1);
+            color: #00ff9d;
+            border: 1px solid #00ff9d;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none; 
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        #theme-btn:hover {
+            background: #00ff9d;
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px #00ff9d;
+        }
+        
+        /* Active Nav Link */
+        .nav-link.active {
+            color: #00ff9d;
+            background-color: rgba(0, 255, 157, 0.05);
+            border-color: rgba(0, 255, 157, 0.2);
+        }
+
+        /* PRINT STYLES - Professional PDF Export */
+        @media print {
+            body { background: #fff !important; color: #000 !important; cursor: default !important; }
+            #cursor-dot, #cursor-outline, #mouse-glow, #matrix-bg, #canvas-bg, #back-to-top, #theme-btn, nav, #preloader, #scroll-progress { display: none !important; }
+            .glass { background: none !important; border: none !important; }
+            .text-neon { color: #000 !important; text-shadow: none !important; }
+            .text-white { color: #000 !important; }
+            .text-slate-300, .text-slate-400, .text-slate-500 { color: #333 !important; }
+            .hud-card { border: 1px solid #000 !important; background: none !important; box-shadow: none !important; color: #000 !important; break-inside: avoid; }
+            .terminal-window { border: 1px solid #000 !important; box-shadow: none !important; }
+            section { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+            a { text-decoration: underline !important; color: #000 !important; }
+        }
+    </style>
+</head>
+<body class="text-slate-300 font-sans selection:bg-emerald-500/30 selection:text-neon">
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="loader-text">INITIALIZING SYSTEM...</div>
+        <div class="loader-bar"></div>
+    </div>
+    
+    <!-- SCROLL PROGRESS BAR -->
+    <div id="scroll-progress"></div>
+
+    <!-- CUSTOM CURSOR -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <!-- BACKGROUND ELEMENTS -->
+    <div id="mouse-glow"></div>
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-bg" class="fixed top-0 left-0 w-full h-full -z-10 opacity-20"></canvas>
+    <!-- Node Network Canvas -->
+    <canvas id="canvas-bg" class="fixed top-0 left-0 w-full h-full -z-9 opacity-50"></canvas>
+    
+    <!-- Back to Top Button -->
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hoverable" aria-label="Scroll to top">
+        <i data-lucide="arrow-up" class="w-6 h-6"></i>
+    </button>
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-btn" onclick="toggleTheme()" class="hoverable" title="Toggle Hacker Mode" aria-label="Toggle theme">
+        <i data-lucide="zap" class="w-6 h-6"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 md:h-20">
+                <!-- Logo with ID for Easter Egg Click -->
+                <div id="logo-trigger" class="flex-shrink-0 font-mono font-bold text-xl text-neon tracking-tighter cursor-pointer hoverable group" onclick="window.scrollTo(0,0)">
+                    &lt;PK /&gt;
+                    <span class="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-slate-400 ml-2 hidden sm:inline">// System.Home</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden lg:block">
+                    <div class="ml-10 flex items-baseline space-x-1">
+                        <a href="#home" class="nav-link hoverable px-3 py-2 rounded text-sm font-mono text-neon border border-transparent hover:border-emerald-500/20 hover:bg-emerald-500/5 transition-all">01.Home</a>
+                        <a href="#about" class="nav-link hoverable px-3 py-2 rounded text-sm font-mono text-slate-400 hover:text-neon hover:bg-slate-800/50 transition-all">02.About</a>
+                        <a href="#skills" class="nav-link hoverable px-3 py-2 rounded text-sm font-mono text-slate-400 hover:text-neon hover:bg-slate-800/50 transition-all">03.Skills</a>
+                        <a href="#education" class="nav-link hoverable px-3 py-2 rounded text-sm font-mono text-slate-400 hover:text-neon hover:bg-slate-800/50 transition-all">04.Edu</a>
+                        <a href="#experience" class="nav-link hoverable px-3 py-2 rounded text-sm font-mono text-slate-400 hover:text-neon hover:bg-slate-800/50 transition-all">05.Exp</a>
+                        <a href="#projects" class="nav-link hoverable px-3 py-2 rounded text-sm font-mono text-slate-400 hover:text-neon hover:bg-slate-800/50 transition-all">06.Work</a>
+                        <a href="#contact" class="nav-link hoverable px-3 py-2 rounded text-sm font-mono text-slate-400 hover:text-neon hover:bg-slate-800/50 transition-all">07.Contact</a>
+                    </div>
+                </div>
+
+                <!-- Mobile/Tablet Menu Button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-btn" class="hoverable p-2 text-neon focus:outline-none" aria-label="Toggle menu">
+                        <i data-lucide="terminal" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-slate-950 border-b border-emerald-500/20">
+            <div class="px-2 pt-2 pb-3 space-y-1 font-mono">
+                <a href="#home" class="block px-3 py-2 text-neon hover:bg-slate-800">01. Home</a>
+                <a href="#about" class="block px-3 py-2 text-slate-400 hover:text-neon hover:bg-slate-800">02. About</a>
+                <a href="#skills" class="block px-3 py-2 text-slate-400 hover:text-neon hover:bg-slate-800">03. Skills</a>
+                <a href="#education" class="block px-3 py-2 text-slate-400 hover:text-neon hover:bg-slate-800">04. Education</a>
+                <a href="#experience" class="block px-3 py-2 text-slate-400 hover:text-neon hover:bg-slate-800">05. Experience</a>
+                <a href="#projects" class="block px-3 py-2 text-slate-400 hover:text-neon hover:bg-slate-800">06. Work</a>
+                <a href="#contact" class="block px-3 py-2 text-slate-400 hover:text-neon hover:bg-slate-800">07. Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-24 px-4 relative scroll-mt-20">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <div class="order-2 md:order-1 space-y-6 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 font-mono text-xs mb-4">
+                    <span class="w-2 h-2 rounded-full bg-neon animate-pulse"></span>
+                    System Online
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-none font-mono glitch-wrapper">
+                    Hi, I'm <br>
+                    <span class="glitch text-neon" data-text="Prahalad Kumar">Prahalad Kumar</span>
+                </h1>
+                
+                <div class="h-8 flex items-center justify-center md:justify-start">
+                    <span class="text-lg sm:text-xl text-slate-400 font-mono">> <span id="typing-text" class="text-white"></span><span class="animate-pulse">_</span></span>
+                </div>
+
+                <p class="text-base sm:text-lg text-slate-400 max-w-xl mx-auto md:mx-0 leading-relaxed">
+                    Building robust backend architecture with <span class="text-neon">Python & Django</span>. 
+                    Obsessed with API performance, clean code, and solving LeetCode hards.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row flex-wrap gap-4 pt-6 justify-center md:justify-start">
+                    <a href="#projects" class="hoverable group relative px-8 py-3 bg-transparent border border-neon text-neon font-mono font-bold uppercase tracking-wider overflow-hidden w-full sm:w-auto text-center">
+                        <span class="relative z-10 group-hover:text-black transition-colors duration-300">View_Projects.exe</span>
+                        <div class="absolute inset-0 bg-neon transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out"></div>
+                    </a>
+                    
+                    <a href="prahalad_kumar.pdf" download="Prahalad_Kumar_Resume.pdf" class="hoverable px-8 py-3 bg-slate-800 text-white font-mono border border-slate-700 hover:border-blue-500 hover:text-blue-400 transition-all flex items-center justify-center gap-2 w-full sm:w-auto" aria-label="Download CV">
+                        <i data-lucide="download" class="w-4 h-4"></i> Download CV
+                    </a>
+
+                    <a href="https://wa.me/917255926881" target="_blank" class="hoverable px-8 py-3 bg-slate-800 text-white font-mono border border-slate-700 hover:border-green-500 hover:text-green-400 transition-all flex items-center justify-center gap-2 w-full sm:w-auto" aria-label="Chat on WhatsApp">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
+                    </a>
+                </div>
+
+                <div class="flex items-center justify-center md:justify-start gap-8 pt-8">
+                    <a href="https://github.com/prahalad-kumar" target="_blank" class="hoverable text-slate-500 hover:text-neon transition-colors transform hover:scale-125 duration-300" title="GitHub" aria-label="GitHub">
+                        <i data-lucide="github" class="w-8 h-8"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/prahalad-kumar/" target="_blank" class="hoverable text-slate-500 hover:text-blue-400 transition-colors transform hover:scale-125 duration-300" title="LinkedIn" aria-label="LinkedIn">
+                        <i data-lucide="linkedin" class="w-8 h-8"></i>
+                    </a>
+                    <a href="mailto:Prahaladkr1@gmail.com" class="hoverable text-slate-500 hover:text-red-400 transition-colors transform hover:scale-125 duration-300" title="Email" aria-label="Email">
+                        <i data-lucide="mail" class="w-8 h-8"></i>
+                    </a>
+                </div>
+                
+                <div class="text-xs font-mono text-slate-500 pt-2 flex flex-col gap-1 items-center md:items-start">
+                    <span><i data-lucide="phone" class="w-3 h-3 inline mr-1"></i> +91-7255926881</span>
+                    <span><i data-lucide="at-sign" class="w-3 h-3 inline mr-1"></i> Prahaladkr1@gmail.com</span>
+                </div>
+            </div>
+            
+            <!-- Profile Graphic -->
+            <div class="order-1 md:order-2 flex justify-center relative">
+                <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[350px] md:h-[350px] lg:w-[450px] lg:h-[450px]">
+                    <div class="absolute inset-0 border border-slate-700 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                    <div class="absolute inset-4 border border-slate-800 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                    <div class="absolute inset-0 border-2 border-transparent border-t-neon/50 rounded-full animate-[spin_3s_linear_infinite] rotating-ring"></div>
+                    
+                    <div class="absolute inset-6 rounded-full overflow-hidden border-4 border-slate-700 bg-slate-900 z-10 hoverable group shadow-[0_0_50px_rgba(0,255,157,0.1)]">
+                        <img 
+                            src="profile.png" 
+                            alt="Prahalad" 
+                            class="w-full h-full object-cover object-top opacity-80 grayscale group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500 filter grayscale group-hover:grayscale-0"
+                            onerror="this.src='https://ui-avatars.com/api/?name=PK&background=0f172a&color=00ff9d&size=512&font-size=0.35'"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-neon/10 to-transparent h-2 w-full animate-[scan_2s_linear_infinite] pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-12 md:py-20 lg:py-24 relative scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12 reveal">
+                <span class="text-neon font-mono text-xl">02.</span>
+                <h2 class="text-3xl font-bold text-white">About_Me</h2>
+                <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-8">
+                <div class="space-y-6 text-slate-400 text-lg reveal">
+                    <p>
+                        Hello! I'm Prahalad, a backend engineer who enjoys building things that live on the internet. 
+                        My interest in development started when I decided to automate boring tasks using <span class="text-neon">Python scripts</span>.
+                    </p>
+                    <p>
+                        Fast-forward to today, I have solved <span class="text-white font-bold">450+ LeetCode problems</span> 
+                        and deployed production-grade apps using <span class="text-neon">Django & FastAPI</span>.
+                    </p>
+                    <p>
+                        I focus on <span class="text-white">Database Optimization</span> and creating scalable API architectures.
+                    </p>
+                </div>
+
+                <!-- Soft Skills Marquee -->
+                <div class="relative overflow-hidden w-full py-4 border-y border-slate-800 bg-slate-900/30 reveal delay-100">
+                    <div class="flex gap-8 animate-marquee whitespace-nowrap text-sm font-mono text-neon/80">
+                        <span>SYSTEM LOGS: Analytical Thinking</span>
+                        <span>[OK] Problem Solving</span>
+                        <span>[OK] Team Collaboration</span>
+                        <span>[OK] Accountability</span>
+                        <span>[OK] Adaptability</span>
+                        <span>[OK] Attention to Detail</span>
+                        <span>[OK] APIs & Microservices</span>
+                        <span>[OK] GenAI & Automation</span>
+                        <span>SYSTEM LOGS: Analytical Thinking</span>
+                        <span>[OK] Problem Solving</span>
+                        <span>[OK] Team Collaboration</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 reveal delay-200">
+                     <a href="https://leetcode.com/Prahaladkr1" target="_blank" class="hud-card p-6 rounded w-full hoverable text-center block group transition-all duration-300">
+                        <div class="corner-accent corner-tl"></div>
+                        <div class="corner-accent corner-br"></div>
+                        <h3 class="text-neon font-mono text-4xl font-bold group-hover:scale-110 transition-transform">450+</h3>
+                        <p class="text-xs font-mono uppercase tracking-widest mt-2 text-slate-500 group-hover:text-neon transition-colors">LeetCode Solved</p>
+                     </a>
+                     
+                     <a href="https://www.hackerrank.com/Prahaladkr1" target="_blank" class="hud-card p-6 rounded w-full hoverable text-center block group transition-all duration-300">
+                        <div class="corner-accent corner-tl"></div>
+                        <div class="corner-accent corner-br"></div>
+                        <h3 class="text-neon font-mono text-4xl font-bold group-hover:scale-110 transition-transform">Top 10%</h3>
+                        <p class="text-xs font-mono uppercase tracking-widest mt-2 text-slate-500 group-hover:text-neon transition-colors">HackerRank</p>
+                     </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-12 md:py-20 lg:py-24 relative bg-slate-900/20 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12 reveal">
+                <span class="text-neon font-mono text-xl">03.</span>
+                <h2 class="text-3xl font-bold text-white">Tech_Stack</h2>
+                <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 reveal delay-100">
+                <!-- Backend Group -->
+                <div class="space-y-4">
+                    <h3 class="text-lg text-white font-mono border-b border-slate-700 pb-2 mb-4 flex items-center gap-2">
+                        <i data-lucide="server" class="text-neon w-4 h-4"></i> Backend
+                    </h3>
+                    
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-python-plain text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">Python</h4>
+                            <p class="text-slate-500 text-xs font-mono">Advanced</p>
+                        </div>
+                    </div>
+
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-django-plain text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">Django</h4>
+                            <p class="text-slate-500 text-xs font-mono">Framework</p>
+                        </div>
+                    </div>
+
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-fastapi-plain text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">FastAPI</h4>
+                            <p class="text-slate-500 text-xs font-mono">High Performance</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database & Cloud -->
+                <div class="space-y-4">
+                    <h3 class="text-lg text-white font-mono border-b border-slate-700 pb-2 mb-4 flex items-center gap-2">
+                        <i data-lucide="database" class="text-neon w-4 h-4"></i> Data & Cloud
+                    </h3>
+
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-postgresql-plain text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">PostgreSQL</h4>
+                            <p class="text-slate-500 text-xs font-mono">RDBMS</p>
+                        </div>
+                    </div>
+
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-mysql-plain text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">MySQL</h4>
+                            <p class="text-slate-500 text-xs font-mono">Database</p>
+                        </div>
+                    </div>
+
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-amazonwebservices-plain-wordmark text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">AWS</h4>
+                            <p class="text-slate-500 text-xs font-mono">Cloud Services</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frontend & Tools -->
+                <div class="space-y-4">
+                    <h3 class="text-lg text-white font-mono border-b border-slate-700 pb-2 mb-4 flex items-center gap-2">
+                        <i data-lucide="layout" class="text-neon w-4 h-4"></i> Tools & Frontend
+                    </h3>
+
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-docker-plain text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">Docker</h4>
+                            <p class="text-slate-500 text-xs font-mono">Containerization</p>
+                        </div>
+                    </div>
+
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-git-plain text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">Git</h4>
+                            <p class="text-slate-500 text-xs font-mono">Version Control</p>
+                        </div>
+                    </div>
+
+                    <div class="hud-card p-3 rounded flex items-center gap-4 hoverable group transition-all duration-300 hover:bg-slate-800/80">
+                        <i class="devicon-react-original text-3xl text-slate-400 group-hover:text-neon transition-colors"></i>
+                        <div>
+                            <h4 class="text-white font-bold font-mono text-sm group-hover:text-neon transition-colors">React & JS</h4>
+                            <p class="text-slate-500 text-xs font-mono">Frontend Basics</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-12 md:py-20 lg:py-24 relative scroll-mt-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12 reveal">
+                <span class="text-neon font-mono text-xl">04.</span>
+                <h2 class="text-3xl font-bold text-white">Education</h2>
+                <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+            </div>
+
+            <div class="space-y-6 reveal delay-100">
+                <div class="hud-card p-6 rounded hoverable relative group">
+                    <div class="corner-accent corner-tl"></div>
+                    <div class="absolute -left-3 top-6 w-1.5 h-12 bg-neon rounded-r"></div>
+                    <h4 class="text-white font-bold text-lg mb-2">Bachelor of Technology (CSE)</h4>
+                    <div class="flex flex-col sm:flex-row justify-between text-sm font-mono mb-2 text-slate-400">
+                        <span class="text-neon">V.N.S Group of Colleges</span>
+                        <span>2021 - 2025</span>
+                    </div>
+                    <p class="text-slate-500 text-sm">CGPA: 8.03/10</p>
+                </div>
+
+                <div class="hud-card p-6 rounded hoverable relative group">
+                    <h4 class="text-white font-bold text-lg mb-2">Class XII (Higher Secondary)</h4>
+                    <div class="flex flex-col sm:flex-row justify-between text-sm font-mono mb-2 text-slate-400">
+                        <span class="text-neon">Bihar State Board</span>
+                        <span>2021 - 2025</span>
+                    </div>
+                    <p class="text-slate-500 text-sm">Percentage : 71.4 %</p>
+                </div>
+
+                <div class="hud-card p-6 rounded hoverable relative group">
+                    <h4 class="text-white font-bold text-lg mb-2">Class X (Secondary School)</h4>
+                    <div class="flex flex-col sm:flex-row justify-between text-sm font-mono mb-2 text-slate-400">
+                        <span class="text-neon">Bihar State Board</span>
+                        <span>2018 - 2019</span>
+                    </div>
+                     <p class="text-slate-500 text-sm">Percentage: 68.2 %</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-12 md:py-20 lg:py-24 relative bg-slate-900/30 scroll-mt-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12 reveal">
+                <span class="text-neon font-mono text-xl">05.</span>
+                <h2 class="text-3xl font-bold text-white">Experience</h2>
+                <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+            </div>
+
+            <div class="relative pl-8 border-l border-slate-800 reveal delay-100">
+                <div class="mb-12 relative group">
+                    <span class="absolute -left-[41px] top-0 w-5 h-5 rounded-full bg-slate-900 border-2 border-neon shadow-[0_0_10px_#00ff9d] z-10 transition-all duration-300"></span>
+                    <div class="hud-card p-8 rounded-lg hoverable">
+                        <div class="corner-accent corner-tl"></div>
+                        <div class="corner-accent corner-br"></div>
+                        
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-neon transition-colors">Python Backend Developer</h3>
+                                <p class="text-neon font-mono text-sm mt-1">@ SMARTBORN SOFTWARE CONSULTING PVT.LTD</p>
+                            </div>
+                            <span class="font-mono text-xs text-slate-500 mt-2 sm:mt-0 bg-slate-800 px-2 py-1 rounded">Present</span>
+                        </div>
+                        
+                        <ul class="space-y-3 text-slate-400 text-sm md:text-base">
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Developing and maintaining high-performance backend systems using <span class="text-white">Python & Django</span>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Collaborating with frontend teams to integrate RESTful APIs and ensure seamless data flow.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Optimizing database queries and ensuring application scalability and security.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-12 relative group">
+                    <span class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-slate-800 border-2 border-slate-600 group-hover:border-neon transition-colors z-10"></span>
+                    <div class="hud-card p-8 rounded-lg hoverable">
+                        <div class="corner-accent corner-tl"></div>
+                        <div class="corner-accent corner-br"></div>
+                        
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-neon transition-colors">Python Full Stack Intern</h3>
+                                <p class="text-neon font-mono text-sm mt-1">@ KodNest</p>
+                            </div>
+                            <span class="font-mono text-xs text-slate-500 mt-2 sm:mt-0 bg-slate-800 px-2 py-1 rounded">2025</span>
+                        </div>
+                        
+                        <ul class="space-y-3 text-slate-400 text-sm md:text-base">
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Gained intensive training in Full Stack Development with a focus on Python and Web Technologies.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Built and deployed multiple mini-projects demonstrating proficiency in backend logic and frontend integration.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Mastered core concepts of SDLC, Agile methodologies, and version control using Git.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative group">
+                    <span class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-slate-800 border-2 border-slate-600 group-hover:border-neon transition-colors z-10"></span>
+                    <div class="hud-card p-8 rounded-lg hoverable">
+                        <div class="corner-accent corner-tl"></div>
+                        <div class="corner-accent corner-br"></div>
+                        
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-neon transition-colors">Python Full Stack Intern</h3>
+                                <p class="text-neon font-mono text-sm mt-1">@ QSpider-PySpider</p>
+                            </div>
+                            <span class="font-mono text-xs text-slate-500 mt-2 sm:mt-0 bg-slate-800 px-2 py-1 rounded">2024 - 2025</span>
+                        </div>
+                        
+                        <ul class="space-y-3 text-slate-400 text-sm md:text-base">
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Architected backend modules using <span class="text-white">Django & FastAPI</span>, reducing API latency by 40%.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Engineered secure authentication systems (JWT/OAuth) and complex CRUD operations.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="text-neon mt-1">▹</span>
+                                <span>Designed normalized database schemas for high-volume data handling in PostgreSQL.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-12 md:py-20 lg:py-24 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12 reveal">
+                <span class="text-neon font-mono text-xl">06.</span>
+                <h2 class="text-3xl font-bold text-white">Certifications</h2>
+                <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal delay-100">
+                <div class="hud-card p-6 rounded flex flex-col items-center text-center hoverable group hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center mb-4 group-hover:border-neon group-hover:shadow-[0_0_15px_#00ff9d] transition-all">
+                        <i data-lucide="award" class="w-8 h-8 text-slate-400 group-hover:text-neon"></i>
+                    </div>
+                    <h3 class="text-white font-bold mb-2">Python Full Stack</h3>
+                    <p class="text-slate-400 text-xs font-mono mb-4">PySpider Development</p>
+                    <span class="px-3 py-1 bg-neon/10 text-neon border border-neon/30 text-[10px] font-mono rounded-full">CERTIFIED</span>
+                </div>
+
+                <div class="hud-card p-6 rounded flex flex-col items-center text-center hoverable group hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center mb-4 group-hover:border-neon group-hover:shadow-[0_0_15px_#00ff9d] transition-all">
+                        <i data-lucide="code-2" class="w-8 h-8 text-slate-400 group-hover:text-neon"></i>
+                    </div>
+                    <h3 class="text-white font-bold mb-2">Full Stack Dev</h3>
+                    <p class="text-slate-400 text-xs font-mono mb-4">KodNest</p>
+                    <span class="px-3 py-1 bg-neon/10 text-neon border border-neon/30 text-[10px] font-mono rounded-full">CERTIFIED</span>
+                </div>
+
+                <div class="hud-card p-6 rounded flex flex-col items-center text-center hoverable group hover:-translate-y-2 transition-all">
+                    <div class="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center mb-4 group-hover:border-neon group-hover:shadow-[0_0_15px_#00ff9d] transition-all">
+                        <i data-lucide="bar-chart-3" class="w-8 h-8 text-slate-400 group-hover:text-neon"></i>
+                    </div>
+                    <h3 class="text-white font-bold mb-2">Python Data Analysis</h3>
+                    <p class="text-slate-400 text-xs font-mono mb-4">Anudip Foundation</p>
+                    <span class="px-3 py-1 bg-neon/10 text-neon border border-neon/30 text-[10px] font-mono rounded-full">CERTIFIED</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-12 md:py-20 lg:py-24 relative scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-12 reveal">
+                <span class="text-neon font-mono text-xl">07.</span>
+                <h2 class="text-3xl font-bold text-white">Featured_Projects</h2>
+                <div class="h-px bg-slate-700 flex-grow max-w-xs"></div>
+            </div>
+
+            <!-- Project Content -->
+            <div class="terminal-window reveal delay-100 group">
+                <div class="terminal-header">
+                    <div class="flex gap-2">
+                        <div class="terminal-dot bg-red-500"></div>
+                        <div class="terminal-dot bg-yellow-500"></div>
+                        <div class="terminal-dot bg-green-500"></div>
+                    </div>
+                    <div class="text-xs font-mono text-slate-400 ml-2">root@prahalad-dev:~/projects/healthbook</div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <!-- Preview Pane -->
+                    <div class="bg-slate-900 border-r border-slate-800 relative overflow-hidden h-64 md:h-auto">
+                        <div class="absolute w-full h-1 bg-neon/50 z-20 animate-scan-vertical shadow-[0_0_15px_#00ff9d] opacity-50"></div>
+                        
+                        <div class="absolute inset-0 flex items-center justify-center p-8 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80')] bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+                            <div class="absolute inset-0 bg-slate-900/60"></div>
+                        </div>
+                        
+                        <div class="absolute top-4 right-4 bg-emerald-500/10 border border-emerald-500/30 text-neon px-3 py-1 text-xs font-mono rounded flex items-center gap-2">
+                            <span class="w-2 h-2 bg-neon rounded-full animate-pulse"></span>
+                            System Status: Online
+                        </div>
+                        
+                        <div class="relative z-10 text-center">
+                            <h3 class="text-3xl font-bold text-white mb-1 tracking-tight">HealthBook</h3>
+                            <p class="text-neon font-mono text-xs">Medical Appointment System</p>
+                        </div>
+                    </div>
+
+                    <!-- Details Pane -->
+                    <div class="p-6 md:p-8 bg-slate-900/50 flex flex-col justify-between">
+                        <div>
+                            <div class="font-mono text-neon text-xs mb-4">$ cat project_description.txt <span class="animate-pulse">_</span></div>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6 border-l-2 border-slate-700 pl-4">
+                                A comprehensive doctor appointment booking system designed for scalability. 
+                                Features distinct portals for doctors and patients, real-time appointment scheduling, 
+                                and secure medical record management using <span class="text-white">Django ORM</span>.
+                            </p>
+
+                            <div class="font-mono text-neon text-xs mb-3">$ ls ./tech_stack/</div>
+                            <div class="flex flex-wrap gap-2 mb-8">
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-mono rounded border border-slate-700">Python</span>
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-mono rounded border border-slate-700">Django</span>
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-mono rounded border border-slate-700">PostgreSQL</span>
+                                <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-mono rounded border border-slate-700">Railway</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="https://healthbook.up.railway.app" target="_blank" class="flex-1 text-center py-3 bg-neon/10 text-neon border border-neon/50 font-mono text-sm hover:bg-neon hover:text-black transition-all font-bold">
+                                <i data-lucide="play" class="w-3 h-3 inline mr-2"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Prahalad-kumar/Doctor_patient_consultancy" target="_blank" class="flex-1 text-center py-3 bg-slate-800 text-white border border-slate-700 font-mono text-sm hover:bg-slate-700 transition-all">
+                                <i data-lucide="github" class="w-3 h-3 inline mr-2"></i> View Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 md:py-24 relative text-center scroll-mt-20">
+        <div class="max-w-2xl mx-auto px-4 reveal">
+            <p class="text-neon font-mono mb-4">08. What's Next?</p>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">Get In Touch</h2>
+            <p class="text-slate-400 text-base md:text-lg mb-10">
+                I'm currently looking for new opportunities in Backend Development. 
+                Whether you have a question or just want to say hi, my inbox is always open!
+            </p>
+            
+            <div class="flex flex-col items-center gap-6">
+                <!-- Main CTA -->
+                <a href="mailto:Prahaladkr1@gmail.com" class="hoverable inline-block px-10 py-4 border-2 border-neon text-neon font-mono font-bold hover:bg-neon hover:text-black transition-all transform hover:scale-105">
+                    Say_Hello
+                </a>
+
+                <!-- WhatsApp Secondary CTA -->
+                <a href="https://wa.me/917255926881" target="_blank" class="hoverable text-white hover:text-green-400 font-mono text-sm flex items-center gap-2 border-b border-transparent hover:border-green-400 transition-all">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i> Or chat on WhatsApp
+                </a>
+            </div>
+            
+            <div class="mt-12 flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 text-slate-500 font-mono text-sm">
+                <div class="flex items-center gap-2 justify-center">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-neon"></i> Bangalore, India
+                </div>
+                <div class="flex items-center gap-2 justify-center">
+                    <i data-lucide="phone" class="w-4 h-4 text-neon"></i> +91-7255926881
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-slate-600 text-xs font-mono border-t border-slate-900 bg-slate-950 relative z-10">
+        <div class="flex justify-center gap-6 mb-6">
+            <a href="https://github.com/prahalad-kumar" target="_blank" class="hoverable text-slate-500 hover:text-neon transition-colors transform hover:scale-110" title="GitHub">
+                <i data-lucide="github" class="w-5 h-5"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/prahalad-kumar-86a81a327/" target="_blank" class="hoverable text-slate-500 hover:text-blue-400 transition-colors transform hover:scale-110" title="LinkedIn">
+                <i data-lucide="linkedin" class="w-5 h-5"></i>
+            </a>
+            <a href="mailto:Prahaladkr1@gmail.com" class="hoverable text-slate-500 hover:text-red-400 transition-colors transform hover:scale-110" title="Email">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+            </a>
+        </div>
+        <p>Built with &lt;3 by Prahalad Kumar <span id="year"></span></p>
+    </footer>
+
+    <!-- LOGIC -->
+    <script>
+        // Init Icons
+        lucide.createIcons();
+
+        // Footer Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Remove Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 1500); // 1.5s initial load time
+        });
+
+        // Console Greeting for Developers
+        console.log("%c  HELLO WORLD!  ", "color: #00ff9d; font-size: 20px; font-weight: bold; background: #0f172a; padding: 10px; border-radius: 5px;");
+        console.log("%cLike what you see? Let's build something together.", "color: #cbd5e1; font-size: 12px;");
+
+        // Theme Configuration (Dynamic Color System)
+        let themeColor = { main: '#ff00ff', rgb: '255, 0, 255' };
+        let isHackerMode = false;
+
+        // --- CUSTOM CURSOR & MOUSE GLOW LOGIC ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        const mouseGlow = document.getElementById('mouse-glow');
+        const backToTopBtn = document.getElementById('back-to-top');
+        const scrollProgressBar = document.getElementById('scroll-progress');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const logoTrigger = document.getElementById('logo-trigger');
+        const themeBtn = document.getElementById('theme-btn');
+        const mobileLinks = document.querySelectorAll('#mobile-menu a');
+        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+            
+            // Move glow (using transform for performance)
+            mouseGlow.style.left = `${mouseX}px`;
+            mouseGlow.style.top = `${mouseY}px`;
+
+            // Outline follows with animation
+            cursorOutline.animate({
+                left: `${mouseX}px`,
+                top: `${mouseY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close Mobile Menu on Link Click
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Hover Effect for links/buttons
+        const hoverables = document.querySelectorAll('.hoverable, a, button');
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+
+        // Scroll Logic: Back to Top + Scroll Spy + Progress Bar
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            // Scroll Progress Bar
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            scrollProgressBar.style.width = scrolled + "%";
+            
+            // Back to top visibility
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+                themeBtn.style.bottom = '90px'; // Move up if back-to-top is shown
+            } else {
+                backToTopBtn.classList.remove('show');
+                themeBtn.style.bottom = '30px';
+            }
+
+            // Scroll Spy
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // --- TYPING EFFECT ---
+        const words = ["Backend Developer", "Python Expert", "Problem Solver"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const delayBetween = 2000;
+        const typingText = document.getElementById('typing-text');
+
+        function type() {
+            const currentWord = words[wordIndex];
+            
+            if (isDeleting) {
+                typingText.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingText.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeedCurrent = isDeleting ? deleteSpeed : typeSpeed;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeSpeedCurrent = delayBetween;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+            }
+
+            setTimeout(type, typeSpeedCurrent);
+        }
+        
+        document.addEventListener('DOMContentLoaded', type);
+
+        // --- SCROLL REVEAL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- MATRIX RAIN ANIMATION ---
+        const matrixCanvas = document.getElementById('matrix-bg');
+        const matrixCtx = matrixCanvas.getContext('2d');
+        let matrixWidth, matrixHeight;
+        let drops = [];
+        const fontSize = 14;
+        
+        function initMatrix() {
+            matrixWidth = matrixCanvas.width = window.innerWidth;
+            matrixHeight = matrixCanvas.height = window.innerHeight;
+            const columns = matrixWidth / fontSize;
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = 1;
+            }
+        }
+
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(2, 6, 23, 0.05)'; // Fade effect
+            matrixCtx.fillRect(0, 0, matrixWidth, matrixHeight);
+            
+            matrixCtx.fillStyle = themeColor.main; // Dynamic Color
+            matrixCtx.font = `${fontSize}px monospace`;
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = Math.floor(Math.random() * 2).toString(); // Binary 0 or 1
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > matrixHeight && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        // --- NODE NETWORK ANIMATION ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let packets = []; 
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initMatrix(); // Resize matrix too
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.2; 
+                this.vy = (Math.random() - 0.5) * 0.2;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0 || this.x > width) this.vx *= -1;
+                if(this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(${themeColor.rgb}, 0.4)`; // Dynamic Color
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        class Packet {
+            constructor(p1, p2) {
+                this.p1 = p1;
+                this.p2 = p2;
+                this.progress = 0;
+                this.speed = 0.02 + Math.random() * 0.03;
+                this.active = true;
+            }
+            update() {
+                this.progress += this.speed;
+                if (this.progress >= 1) this.active = false;
+            }
+            draw() {
+                const x = this.p1.x + (this.p2.x - this.p1.x) * this.progress;
+                const y = this.p1.y + (this.p2.y - this.p1.y) * this.progress;
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = themeColor.main; // Dynamic Color
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            packets = [];
+            const count = Math.min(Math.floor(window.innerWidth / 15), 60); 
+            for(let i=0; i<count; i++) particles.push(new Particle());
+        }
+
+        function animateCanvas() {
+            // Draw Matrix Rain
+            drawMatrix();
+
+            // Clear Network Canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Randomly spawn packets
+            if (Math.random() < 0.05 && particles.length > 1) {
+                const p1 = particles[Math.floor(Math.random() * particles.length)];
+                let p2 = null;
+                let minDist = 150;
+                for (let p of particles) {
+                    if (p === p1) continue;
+                    const dx = p.x - p1.x;
+                    const dy = p.y - p1.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < minDist) {
+                        p2 = p;
+                        break; 
+                    }
+                }
+                if (p2) packets.push(new Packet(p1, p2));
+            }
+
+            // Draw Particles & Connections
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            ctx.strokeStyle = `rgba(${themeColor.rgb}, 0.08)`; // Dynamic Color
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            for (let i = packets.length - 1; i >= 0; i--) {
+                packets[i].update();
+                packets[i].draw();
+                if (!packets[i].active) packets.splice(i, 1);
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', () => { resize(); initParticles(); });
+        resize();
+        initMatrix();
+        initParticles();
+        animateCanvas();
+
+        // Scanline animation style
+        document.styleSheets[0].insertRule(`
+            @keyframes scan {
+                0% { top: -10%; opacity: 0; }
+                50% { opacity: 1; }
+                100% { top: 110%; opacity: 0; }
+            }
+        `, document.styleSheets[0].cssRules.length);
+
+        // --- KONAMI CODE EASTER EGG ---
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    toggleTheme();
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        // --- MOBILE TRIGGER: TAP LOGO 5 TIMES ---
+        let logoTaps = 0;
+        let tapTimer;
+
+        logoTrigger.addEventListener('click', () => {
+            logoTaps++;
+            clearTimeout(tapTimer);
+            tapTimer = setTimeout(() => {
+                logoTaps = 0;
+            }, 1000); // Reset if not tapped quickly enough
+
+            if (logoTaps >= 5) {
+                toggleTheme();
+                logoTaps = 0;
+            }
+        });
+
+        function toggleTheme() {
+            isHackerMode = !isHackerMode;
+            const styleId = 'hacker-mode-style';
+            const existingStyle = document.getElementById(styleId);
+
+            if (isHackerMode) {
+                // Switch to Pink (#ff00ff)
+                themeColor.main = '#ff00ff'; 
+                themeColor.rgb = '255, 0, 255';
+                
+                if (!existingStyle) {
+                    const style = document.createElement('style');
+                    style.id = styleId;
+                    style.innerHTML = `
+                        :root {
+                            --neon-color: #ff00ff;
+                            --neon-rgb: 255, 0, 255;
+                        }
+                        .text-neon { color: var(--neon-color) !important; text-shadow: 0 0 10px var(--neon-color) !important; }
+                        .bg-neon { background-color: var(--neon-color) !important; }
+                        .border-neon { border-color: var(--neon-color) !important; }
+                        
+                        .hover\\:text-neon:hover { color: var(--neon-color) !important; text-shadow: 0 0 10px var(--neon-color) !important; }
+                        .hover\\:bg-neon:hover { background-color: var(--neon-color) !important; }
+                        .hover\\:border-neon:hover { border-color: var(--neon-color) !important; }
+                        
+                        .group:hover .group-hover\\:text-neon { color: var(--neon-color) !important; }
+                        .group:hover .group-hover\\:border-neon { border-color: var(--neon-color) !important; }
+                        .group:hover .group-hover\\:scale-110 { color: var(--neon-color) !important; }
+                        
+                        [class*="shadow-[0_0_15px_#00ff9d]"] { box-shadow: 0 0 15px var(--neon-color) !important; } 
+                        .group:hover [class*="group-hover:shadow-[0_0_50px_rgba(0,255,157,0.1)]"] { box-shadow: 0 0 50px rgba(var(--neon-rgb), 0.1) !important; }
+                        .group:hover [class*="group-hover:shadow-[0_0_15px_#00ff9d]"] { box-shadow: 0 0 15px var(--neon-color) !important; }
+
+                        #cursor-dot { background-color: var(--neon-color) !important; box-shadow: 0 0 10px var(--neon-color) !important; }
+                        #cursor-outline { border-color: var(--neon-color) !important; }
+                        body.hovering #cursor-outline { border-color: var(--neon-color) !important; background-color: rgba(var(--neon-rgb), 0.1) !important; }
+                        
+                        .loader-text { color: var(--neon-color) !important; }
+                        .loader-bar::after { background-color: var(--neon-color) !important; }
+                        
+                        #back-to-top, #theme-btn { color: var(--neon-color) !important; border-color: var(--neon-color) !important; background-color: rgba(var(--neon-rgb), 0.1) !important; }
+                        #back-to-top:hover, #theme-btn:hover { background-color: var(--neon-color) !important; color: #000 !important; }
+
+                        #scroll-progress { background: var(--neon-color) !important; box-shadow: 0 0 10px var(--neon-color) !important; }
+                        
+                        .nav-link.active { color: var(--neon-color) !important; background-color: rgba(var(--neon-rgb), 0.05) !important; border-color: rgba(var(--neon-rgb), 0.2) !important; }
+
+                        .rotating-ring { border-top-color: rgba(var(--neon-rgb), 0.5) !important; }
+                        
+                        ::selection { background-color: rgba(var(--neon-rgb), 0.3); color: var(--neon-color); }
+                        
+                        [class*="hover\\:border-neon"]:hover { border-color: rgba(var(--neon-rgb), 0.5) !important; }
+                    `;
+                    document.head.appendChild(style);
+                }
+            } else {
+                // Revert to Default Green
+                themeColor.main = '#00ff9d';
+                themeColor.rgb = '0, 255, 157';
+                
+                if (existingStyle) {
+                    existingStyle.remove();
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
